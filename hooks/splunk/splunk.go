@@ -1,13 +1,8 @@
 package splunk
 
-import (
-	"fmt"
-	"os"
-	"time"
-)
+import "time"
 
 type SplunkHECHook struct {
-
 }
 
 type SplunkHECConfig struct {
@@ -30,7 +25,7 @@ type SplunkHECConfig struct {
 // `if err == nil { log.Hooks.Add(hook) }`
 func NewSplunkHECHook(setting *SplunkHECSetting) (hook *SplunkHECHook, err error) {
 	err := nil
-	return &hook{},  err
+	return &hook{}, err
 }
 
 func (hook *SplunkHECHook) Fire(entry *logrus.Entry) error {
@@ -41,20 +36,20 @@ func (hook *SplunkHECHook) Fire(entry *logrus.Entry) error {
 
 	// switch entry.Level {
 	// case logrus.PanicLevel:
-	// 	return hook.Writer.Crit(line)
+	//  return hook.Writer.Crit(line)
 	// case logrus.FatalLevel:
-	// 	return hook.Writer.Crit(line)
+	//  return hook.Writer.Crit(line)
 	// case logrus.ErrorLevel:
-	// 	return hook.Writer.Err(line)
+	//  return hook.Writer.Err(line)
 	// case logrus.WarnLevel:
-	// 	return hook.Writer.Warning(line)
+	//  return hook.Writer.Warning(line)
 	// case logrus.InfoLevel:
-	// 	return hook.Writer.Info(line)
+	//  return hook.Writer.Info(line)
 	// case logrus.DebugLevel:
-	// 	return hook.Writer.Debug(line)
+	//  return hook.Writer.Debug(line)
 	// default:
-	// 	return nil
-	}
+	//  return nil
+	//}
 }
 
 func (hook *SplunkHECHook) Levels() []logrus.Level {
