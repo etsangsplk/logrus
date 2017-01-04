@@ -7,9 +7,10 @@ import (
 )
 
 type SplunkHECHook struct {
+
 }
 
-type SplunkHECSetting struct {
+type SplunkHECConfig struct {
 	url         string
 	auth        string
 	nullMessage *splunkMessage
@@ -27,16 +28,15 @@ type SplunkHECSetting struct {
 // Creates a hook to be added to a logger instance.
 // `hook, err := NewSplunkHECHook()`
 // `if err == nil { log.Hooks.Add(hook) }`
-func NewSplunkHECHook(setting *SplunkHECSetting) (*SplunkHECHook, error) {
+func NewSplunkHECHook(setting *SplunkHECSetting) (hook *SplunkHECHook, err error) {
 	err := nil
-	return &SplunkHECHook{}, err
+	return &hook{},  err
 }
 
 func (hook *SplunkHECHook) Fire(entry *logrus.Entry) error {
 	line, err := entry.String()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Unable to read entry, %v", err)
-		return err
+		return err.New("Unable to read log level")
 	}
 
 	// switch entry.Level {
