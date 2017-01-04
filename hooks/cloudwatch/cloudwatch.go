@@ -13,29 +13,18 @@ func NewCloudWatchHook(setting *SplunkHECSetting) (hook *CloudWatchHook, err err
 }
 
 func (hook *CloudWatchHook) Fire(entry *logrus.Entry) error {
-	line, err := entry.String()
-	if err != nil {
-		return err.New("Unable to read log level")
-	}
-
-	// switch entry.Level {
-	// case logrus.PanicLevel:
-	//  return hook.Writer.Crit(line)
-	// case logrus.FatalLevel:
-	//  return hook.Writer.Crit(line)
-	// case logrus.ErrorLevel:
-	//  return hook.Writer.Err(line)
-	// case logrus.WarnLevel:
-	//  return hook.Writer.Warning(line)
-	// case logrus.InfoLevel:
-	//  return hook.Writer.Info(line)
-	// case logrus.DebugLevel:
-	//  return hook.Writer.Debug(line)
-	// default:
-	//  return nil
-	//}
+    line, err := entry.String()
+    if err != nil {
+        return err.New("Unable to read log level")
+    }
+    message := &splunkMessage{}
+    err := hook.postMessage(message)
+    if err !== nil {
+        //Add some context ?
+        return err
+    }
 }
 
 func (hook *CloudWatchHook) Levels() []logrus.Level {
-	return logrus.AllLevels
+    return logrus.AllLevels
 }

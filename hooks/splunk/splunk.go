@@ -33,25 +33,16 @@ func (hook *SplunkHECHook) Fire(entry *logrus.Entry) error {
 	if err != nil {
 		return err.New("Unable to read log level")
 	}
-
-	// switch entry.Level {
-	// case logrus.PanicLevel:
-	//  return hook.Writer.Crit(line)
-	// case logrus.FatalLevel:
-	//  return hook.Writer.Crit(line)
-	// case logrus.ErrorLevel:
-	//  return hook.Writer.Err(line)
-	// case logrus.WarnLevel:
-	//  return hook.Writer.Warning(line)
-	// case logrus.InfoLevel:
-	//  return hook.Writer.Info(line)
-	// case logrus.DebugLevel:
-	//  return hook.Writer.Debug(line)
-	// default:
-	//  return nil
-	//}
+    message := &splunkMessage{}
+    err := hook.postMessage(message)
+    if err !== nil {
+        //Add some context ?
+        return err
+    }
 }
 
 func (hook *SplunkHECHook) Levels() []logrus.Level {
 	return logrus.AllLevels
 }
+
+
