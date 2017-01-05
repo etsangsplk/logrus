@@ -1,10 +1,16 @@
 package splunk
 
-import "time"
+import (
+	"time"
 
+	"github.com/Sirupsen/logrus"
+)
+
+// This is a hook for logrus
 type SplunkHECHook struct {
 }
 
+// Config settings to talk to splunk hec
 type SplunkHECConfig struct {
 	url         string
 	auth        string
@@ -33,16 +39,12 @@ func (hook *SplunkHECHook) Fire(entry *logrus.Entry) error {
 	if err != nil {
 		return err.New("Unable to read log level")
 	}
-    message := &splunkMessage{}
-    err := hook.postMessage(message)
-    if err !== nil {
-        //Add some context ?
-        return err
-    }
+	message := &splunkMessage{}
+	if err = hook.postMessage(message); err != nil {
+		return err
+	}
 }
 
 func (hook *SplunkHECHook) Levels() []logrus.Level {
 	return logrus.AllLevels
 }
-
-

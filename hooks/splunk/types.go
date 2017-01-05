@@ -4,8 +4,6 @@ import (
 	"net/http"
 	"sync"
 	"time"
-
-	"github.com/docker/docker/daemon/logger"
 )
 
 type splunkLoggerInterface interface {
