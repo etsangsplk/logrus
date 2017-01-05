@@ -1,6 +1,7 @@
 package splunk
 
 import (
+	"errors"
 	"time"
 
 	"github.com/Sirupsen/logrus"
@@ -29,22 +30,27 @@ type SplunkHECConfig struct {
 // Creates a hook to be added to a logger instance.
 // `hook, err := NewSplunkHECHook()`
 // `if err == nil { log.Hooks.Add(hook) }`
-func NewSplunkHECHook(setting *SplunkHECSetting) (hook *SplunkHECHook, err error) {
-	err := nil
-	return &hook{}, err
+func NewSplunkHECHook(setting *SplunkHECConfig) (hook *SplunkHECHook, err error) {
+	err = nil
+	return &SplunkHECHook{}, err
 }
 
 func (hook *SplunkHECHook) Fire(entry *logrus.Entry) error {
-	line, err := entry.String()
+	_, err := entry.String()
 	if err != nil {
-		return err.New("Unable to read log level")
+		return errors.New("Unable to read log level")
 	}
 	message := &splunkMessage{}
-	if err = hook.postMessage(message); err != nil {
+	if err = hook.post(message); err != nil {
 		return err
 	}
+	return nil
 }
 
 func (hook *SplunkHECHook) Levels() []logrus.Level {
 	return logrus.AllLevels
+}
+
+func (hook *SplunkHECHook) post(message *splunkMessage) error {
+	return nil
 }

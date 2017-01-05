@@ -1,6 +1,10 @@
 package cloudwatch
 
-import "github.com/Sirupsen/logrus"
+import (
+	"errors"
+
+	"github.com/Sirupsen/logrus"
+)
 
 // logrus hook
 type CloudWatchHook struct{}
@@ -11,22 +15,27 @@ type CloudWatchConfig struct{}
 // Creates a hook to be added to a logger instance.
 // `hook, err := NewCloudWatchHook()`
 // `if err == nil { log.Hooks.Add(hook) }`
-func NewCloudWatchHook(setting *SplunkHECSetting) (hook *CloudWatchHook, err error) {
-	err := nil
-	return &hook{}, err
+func NewCloudWatchHook(setting *CloudWatchConfig) (hook *CloudWatchHook, err error) {
+	err = nil
+	return &CloudWatchHook{}, err
 }
 
 func (hook *CloudWatchHook) Fire(entry *logrus.Entry) error {
-	line, err := entry.String()
+	message, err := entry.String()
 	if err != nil {
-		return err.New("Unable to read log level")
+		return errors.New("Unable to read log level")
 	}
-	message := &splunkMessage{}
-	if err = hook.postMessage(message); err != nil {
+
+	if err = hook.post(&message); err != nil {
 		return err
 	}
+	return nil
 }
 
 func (hook *CloudWatchHook) Levels() []logrus.Level {
 	return logrus.AllLevels
+}
+
+func (hook *CloudWatchHook) post(message *string) error {
+	return nil
 }

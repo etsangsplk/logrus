@@ -6,10 +6,10 @@ import (
 	"time"
 )
 
-type splunkLoggerInterface interface {
-	logger.Logger
-	worker()
-}
+// type splunkLoggerInterface interface {
+//  logger.Logger
+//  worker()
+// }
 
 type splunkLogger struct {
 	client    *http.Client
